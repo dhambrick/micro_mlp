@@ -1,0 +1,19 @@
+Network_Name: Sine
+Layers:
+      -     name: Input
+            InputDim: 1
+            OutputDim: 1  
+      -     name: Layer1
+            InputDim: 1
+            OutputDim: 3
+            ActivationFunction: sigmoid
+      -     name: Layer2
+            InputDim: 3
+            OutputDim: 3
+            ActivationFunction: sigmoid
+      -     name: Output
+            InputDim: 3
+            OutputDim: 1
+            ActivationFunction: sigmoid
+Training_Method: Back_Prop
+Training_Cost: Error_Squared
