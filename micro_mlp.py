@@ -46,8 +46,9 @@ def WeightPerturbationTrain(train_data_x,
                             train_data_labels,
                             net_cfg,
                             training_par={'etta':.00001,'gamma':.3}):
+   beta = -1*(training_par['gamma']/training_par['etta'])
    for x,y in  zip(train_data_x,train_data_labels):
-       A = ComputeForwardPass(np.asarray([x]),net_cfg)
+       A = ComputeForwardPass(x,net_cfg)
        E = mse(A,y)
        print('x: ',x)
        print('_y: ',A)
@@ -57,13 +58,22 @@ def WeightPerturbationTrain(train_data_x,
             if layer["name"] == 'Input':
                 continue
             print('Layer: ',layer['name'])
-            for w in np.nditer(layer['weights']):
-                print('w',w)
-                _w = w + training_par['etta']
-                E_pert = ComputeForwardPass()
-       
-       
-       
+            m,n = layer['weights'].shape
+            layer['delta_weights'] = np.zeros((m,n))
+            for i in range(m):
+                for j in range(n):
+                    #print('w',layer['weights'][i][j])
+                    layer['weights'][i][j] = layer['weights'][i][j] + training_par['etta']
+                    #print('_w',layer['weights'][i][j])
+                    _y = ComputeForwardPass(x,net_cfg)
+                    E_pert = mse(_y,y)
+                    #print('E_pert',E_pert)
+                    delta_E = E_pert - E 
+                    layer['weights'][i][j] = layer['weights'][i][j] - training_par['etta']
+                    layer['delta_weights'][i][j] = beta*delta_E
+            layer['weights'] = layer['weights'] + layer['delta_weights']
+            print('Perturbed Weights:')
+            print(layer['delta_weights'])
        
        
 
