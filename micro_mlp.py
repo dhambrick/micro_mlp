@@ -24,13 +24,13 @@ def InitializeMLP(cfg):
     for layer in cfg['Layers']:
         m = layer['InputDim']
         n = layer['OutputDim']
-        layer['weights'] = xavier(m,n)
+        layer['weights'] = xavier(n,m)
     return cfg
 
 def ComputeLayerResponse(layer_input,layer):
-    #print('Layer name', layer['name'])
-    #print('Input: ',layer_input.shape)
-    #print('Weights', layer['weights'].shape)
+    print('Layer name', layer['name'])
+    print('Input: ',layer_input.shape)
+    print('Weights', layer['weights'].shape)
     layer_output = np.matmul(layer['weights'],layer_input)
     layer_output = fct_map[layer["ActivationFunction"]](layer_output)
     return layer_output
@@ -54,7 +54,7 @@ def WeightPerturbationTrain(train_data_x,
        #print('x: ',x)
        #print('_y: ',A)
        #print('y: ',y)
-       #print('MSE: ',E)
+       print('MSE: ',E)
        for layer in net_cfg['Layers']:
             if layer["name"] == 'Input':
                 continue

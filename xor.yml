@@ -1,0 +1,15 @@
+Network_Name: XOR
+Layers:
+      -     name: Input
+            InputDim: 2
+            OutputDim: 2  
+      -     name: Layer1
+            InputDim: 2
+            OutputDim: 2
+            ActivationFunction: sigmoid
+      -     name: Output
+            InputDim: 2
+            OutputDim: 1
+            ActivationFunction: sigmoid
+Training_Method: Back_Prop
+Training_Cost: Error_Squared

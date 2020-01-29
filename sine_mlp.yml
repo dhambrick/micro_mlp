@@ -5,14 +5,14 @@ Layers:
             OutputDim: 1  
       -     name: Layer1
             InputDim: 1
-            OutputDim: 16
+            OutputDim: 3
             ActivationFunction: sigmoid
       -     name: Layer2
-            InputDim: 16
-            OutputDim: 16
+            InputDim: 3
+            OutputDim: 3
             ActivationFunction: sigmoid
       -     name: Output
-            InputDim: 16
+            InputDim: 3
             OutputDim: 1
             ActivationFunction: sigmoid
 Training_Method: Back_Prop
