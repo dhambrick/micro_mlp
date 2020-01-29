@@ -7,6 +7,10 @@ def sigmoid(X):
 def relu(X):
    return np.maximum(0,X)
 
+def mse(A,B):
+    return (np.square(A - B)).mean()
+
+
 fct_map = {"sigmoid":sigmoid , "relu":relu}
 
 def LoadANNConfigFile(config_path):
@@ -38,7 +42,34 @@ def ComputeForwardPass(net_input,net_cfg):
         else:
             x = ComputeLayerResponse(x,layer)
     return x        
+def WeightPerturbationTrain(train_data_x,
+                            train_data_labels,
+                            net_cfg,
+                            training_par={'etta':.00001,'gamma':.3}):
+   for x,y in  zip(train_data_x,train_data_labels):
+       A = ComputeForwardPass(np.asarray([x]),net_cfg)
+       E = mse(A,y)
+       print('x: ',x)
+       print('_y: ',A)
+       print('y: ',y)
+       print('MSE: ',E)
+       for layer in net_cfg['Layers']:
+            if layer["name"] == 'Input':
+                continue
+            print('Layer: ',layer['name'])
+            for w in np.nditer(layer['weights']):
+                print('w',w)
+                _w = w + training_par['etta']
+                E_pert = ComputeForwardPass()
+       
+       
+       
+       
+       
+
 
 cfg = LoadANNConfigFile("sine_mlp.yml")
 cfg = InitializeMLP(cfg)
-print(ComputeForwardPass(np.asarray([0]),cfg))
+t = np.linspace(0,np.pi/2)
+y = np.sin(t)
+WeightPerturbationTrain(t,y,cfg)
